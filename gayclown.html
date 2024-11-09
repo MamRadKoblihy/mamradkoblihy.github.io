@@ -160,6 +160,7 @@
 
         function startMusic() {
             const audio = document.getElementById("backgroundMusic");
+            audio.volume = 0.2;
             audio.play();
             document.getElementById("playButton").style.display = "none"; // Hide button after playback starts
         }
