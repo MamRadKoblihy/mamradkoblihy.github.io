@@ -85,15 +85,28 @@
             40% { transform: translateY(-10px); }
             60% { transform: translateY(-5px); }
         }
+        #playButton {
+            display: none; /* Hide by default */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            font-size: 20px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.3);
+        }
     </style>
 </head>
 <body>
     <h1>🎪 LGBTQ+ Friendly Claw Machine 🎉</h1>
     <div class="clown-bg"></div>
-    <audio autoplay loop>
-        <source src="clown.mp3" type="audio/mpeg">
-      Your browser does not support the audio cum.
-      </audio> 
+    <audio id="backgroundMusic" src="background-music.mp3" loop></audio>
+<button id="playButton" onclick="startMusic()">🎶 Play Background Music 🎶</button>
     <div class="buttons">
         <button onclick="sendCommand('up')">⬆️ Up</button>
         <button onclick="sendCommand('left')">⬅️ Left</button>
@@ -126,6 +139,21 @@
             message.destinationName = "claw_machine/control";
             client.send(message);
         }
+        document.addEventListener("DOMContentLoaded", () => {
+        const audio = document.getElementById("backgroundMusic");
+
+        // Try to autoplay the audio on page load
+        audio.play().catch(() => {
+            // Show play button if autoplay fails
+            document.getElementById("playButton").style.display = "block";
+        });
+    });
+
+    function startMusic() {
+        const audio = document.getElementById("backgroundMusic");
+        audio.play();
+        document.getElementById("playButton").style.display = "none"; // Hide button after playback starts
+    }
     </script>
 </body>
 </html>
