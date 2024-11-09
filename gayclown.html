@@ -120,7 +120,7 @@
     
 
     <div class="video-feed">
-        <img src="http://82.4.251.26:5000/video_feed" alt="Live Video Feed">
+        <img src="http://82.4.251.26:25565/video_feed" alt="Live Video Feed">
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
@@ -136,7 +136,7 @@
                 document.getElementById("playButton").style.display = "block";
             });
         });
-        const client = new Paho.MQTT.Client("ws://<Raspberry_Pi_IP>:9001", "clientId-web");
+        const client = new Paho.MQTT.Client("ws://<yourgay>:25565", "clientId-web");
 
         client.onConnectionLost = (responseObject) => {
             if (responseObject.errorCode !== 0) {
