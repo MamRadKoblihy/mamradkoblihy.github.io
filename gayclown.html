@@ -89,7 +89,7 @@
         /* Play Button */
         #playButton {
             display: none; /* Hide by default */
-            position: fixed;
+           /* position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -100,7 +100,7 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            box-shadow: 0px 4px 8px rgba(0,0,0,0.3);
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.3);*/
         }
     </style>
 </head>
@@ -114,9 +114,10 @@
         <button onclick="sendCommand('left')">⬅️ Left</button>
         <button onclick="sendCommand('down')">⬇️ Down</button>
         <button onclick="sendCommand('right')">➡️ Right</button>
+        <button id="playButton" onclick="startMusic()">🎶 Play Background Music 🎶</button>
         
     </div>
-    <button id="playButton" onclick="startMusic()">🎶 Play Background Music 🎶</button>
+    
 
     <div class="video-feed">
         <img src="http://82.4.251.26:5000/video_feed" alt="Live Video Feed">
