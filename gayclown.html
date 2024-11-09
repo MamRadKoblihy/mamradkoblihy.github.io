@@ -85,11 +85,9 @@
             40% { transform: translateY(-10px); }
             60% { transform: translateY(-5px); }
         }
-        
-        /* Play Button */
         #playButton {
             display: none; /* Hide by default */
-           /* position: fixed;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -100,14 +98,14 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            box-shadow: 0px 4px 8px rgba(0,0,0,0.3);*/
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.3);
         }
     </style>
 </head>
 <body>
     <h1>🎪 LGBTQ+ Friendly Claw Machine 🎉</h1>
     <div class="clown-bg"></div>
-    <audio id="backgroundMusic" src="clown.mp3" loop></audio>
+    <audio id="backgroundMusic" src="background-music.mp3" loop></audio>
    
     <div class="buttons">
         <button onclick="sendCommand('up')">⬆️ Up</button>
@@ -115,28 +113,23 @@
         <button onclick="sendCommand('down')">⬇️ Down</button>
         <button onclick="sendCommand('right')">➡️ Right</button>
         <button id="playButton" onclick="startMusic()">🎶 Play Background Music 🎶</button>
-        
     </div>
+    <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="480">
+        <source src="http://byronbonkers.com/playlist.m3u8" type="application/x-mpegURL">
+    </video>
+    <script>
+        var player = videojs('my-video');
+    </script>
     
-
     <div class="video-feed">
-        <img src="http://82.4.251.26:25565/video_feed" alt="Live Video Feed">
+        <img src="http://82.4.251.26:8554/video_feed" alt="Live Video Feed">
     </div>
-
+    <link href="https://cdn.jsdelivr.net/npm/video.js@7.12.3/dist/video-js.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/video.js@7.12.3/dist/video.min.js"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
     <script>
-         document.addEventListener("DOMContentLoaded", () => {
-            const audio = document.getElementById("backgroundMusic");
-
-            // Try to autoplay the audio on page load
-            audio.play().then(() => {
-                console.log("Audio started successfully.");
-            }).catch(() => {
-                // Show play button if autoplay fails
-                document.getElementById("playButton").style.display = "block";
-            });
-        });
-        const client = new Paho.MQTT.Client("ws://<yourgay>:25565", "clientId-web");
+        const client = new Paho.MQTT.Client("ws://<Raspberry_Pi_IP>:9001", "clientId-web");
 
         client.onConnectionLost = (responseObject) => {
             if (responseObject.errorCode !== 0) {
@@ -155,15 +148,21 @@
             message.destinationName = "claw_machine/control";
             client.send(message);
         }
+        document.addEventListener("DOMContentLoaded", () => {
+        const audio = document.getElementById("backgroundMusic");
 
-       
+        // Try to autoplay the audio on page load
+        audio.play().catch(() => {
+            // Show play button if autoplay fails
+            document.getElementById("playButton").style.display = "block";
+        });
+    });
 
-        function startMusic() {
-            const audio = document.getElementById("backgroundMusic");
-            audio.volume = 0.2;
-            audio.play();
-            document.getElementById("playButton").style.display = "none"; // Hide button after playback starts
-        }
+    function startMusic() {
+        const audio = document.getElementById("backgroundMusic");
+        audio.play();
+        document.getElementById("playButton").style.display = "none"; // Hide button after playback starts
+    }
     </script>
 </body>
 </html>
