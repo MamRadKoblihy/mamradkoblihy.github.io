@@ -123,6 +123,17 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
     <script>
+         document.addEventListener("DOMContentLoaded", () => {
+            const audio = document.getElementById("backgroundMusic");
+
+            // Try to autoplay the audio on page load
+            audio.play().then(() => {
+                console.log("Audio started successfully.");
+            }).catch(() => {
+                // Show play button if autoplay fails
+                document.getElementById("playButton").style.display = "block";
+            });
+        });
         const client = new Paho.MQTT.Client("ws://<Raspberry_Pi_IP>:9001", "clientId-web");
 
         client.onConnectionLost = (responseObject) => {
@@ -143,17 +154,7 @@
             client.send(message);
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const audio = document.getElementById("backgroundMusic");
-
-            // Try to autoplay the audio on page load
-            audio.play().then(() => {
-                console.log("Audio started successfully.");
-            }).catch(() => {
-                // Show play button if autoplay fails
-                document.getElementById("playButton").style.display = "block";
-            });
-        });
+       
 
         function startMusic() {
             const audio = document.getElementById("backgroundMusic");
