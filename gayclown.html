@@ -114,16 +114,14 @@
         <button onclick="sendCommand('right')">➡️ Right</button>
         <button id="playButton" onclick="startMusic()">🎶 Play Background Music 🎶</button>
     </div>
-    <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="480">
-        <source src="http://byronbonkers.com/playlist.m3u8" type="application/x-mpegURL">
+    <video id="video" class="video-js vjs-default-skin" controls autoplay>
+        <source src="rtsp://your_server_ip:8554/stream" type="application/x-rtsp">
     </video>
+    
     <script>
         var player = videojs('my-video');
     </script>
     
-    <div class="video-feed">
-        <img src="http://82.4.251.26:8554/video_feed" alt="Live Video Feed">
-    </div>
     <link href="https://cdn.jsdelivr.net/npm/video.js@7.12.3/dist/video-js.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/video.js@7.12.3/dist/video.min.js"></script>
     
