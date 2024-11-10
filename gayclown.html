@@ -114,13 +114,23 @@
         <button onclick="sendCommand('right')">➡️ Right</button>
         <button id="playButton" onclick="startMusic()">🎶 Play Background Music 🎶</button>
     </div>
-    <video id="video" class="video-js vjs-default-skin" controls autoplay>
-        <source src="rtsp://82.4.251.26:8554/stream" type="application/x-rtsp">
-    </video>
-    
-    <script>
-        var player = videojs('my-video');
-    </script>
+    <script src="webrtmp.js"></script>
+<video id="videoElement"></video>
+<script>
+    const videoElement = document.getElementById('videoElement');
+
+    const rtmp_player = webrtmpjs.createWebRTMP();
+
+    rtmp_player.attachMediaElement(videoElement);
+
+    rtmp_player.open(document.location.host, 25565).then(()=>{   // Host, Port of WebRTMP Proxy
+        rtmp_player.connect("live").then(()=>{                  // Application name
+            rtmp_player.play("stream").then(()=>{      // Stream name
+                console.log("playing");
+            })
+        })
+    })
+</script>
     
     <link href="https://cdn.jsdelivr.net/npm/video.js@7.12.3/dist/video-js.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/video.js@7.12.3/dist/video.min.js"></script>
