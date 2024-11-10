@@ -115,26 +115,26 @@
         <button id="playButton" onclick="startMusic()">🎶 Play Background Music 🎶</button>
     </div>
 <script src="webrtmp.js"></script>
-<video id="videoElement"></video>
+<div id="player_id"></div>
 <script>
-    const videoElement = document.getElementById('videoElement');
 
-    const rtmp_player = webrtmpjs.createWebRTMP();
-
-    rtmp_player.attachMediaElement(videoElement);
-
-    rtmp_player.open('byronbonkers.com', 25565).then(()=>{   // Host, Port of WebRTMP Proxy
-        rtmp_player.connect("live").then(()=>{                  // Application name
-            rtmp_player.play("stream").then(()=>{      // Stream name
-                console.log("playing");
-            })
-        })
-    })
-</script>
+        // Initialize OvenPlayer
+        const player = OvenPlayer.create('player_id', {
+            sources: [
+                {
+                    label: 'Test',
+                    // Set the type to 'webrtc'
+                    type: 'webrtc',
+                    // Set the file to WebRTC Signaling URL with OvenMediaEngine 
+                    file: 'wss://byronbonkers.com:3334/app/stream'
+                }
+            ]
+        });
+    </script>
     
     <link href="https://cdn.jsdelivr.net/npm/video.js@7.12.3/dist/video-js.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/video.js@7.12.3/dist/video.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/ovenplayer/dist/ovenplayer.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
     <script>
         const client = new Paho.MQTT.Client("ws://<Raspberry_Pi_IP>:9001", "clientId-web");
