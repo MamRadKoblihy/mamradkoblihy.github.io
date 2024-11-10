@@ -138,7 +138,8 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
     <script>
-        const client = new Paho.MQTT.Client("ws://<Raspberry_Pi_IP>:9001", "clientId-web");
+        const clientId = "clientId-web-" + Math.random().toString(16).substr(2, 8);
+        const client = new Paho.MQTT.Client("wss://byronbonkers.com:19132", clientId);
 
         client.onConnectionLost = (responseObject) => {
             if (responseObject.errorCode !== 0) {
