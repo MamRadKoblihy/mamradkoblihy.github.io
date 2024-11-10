@@ -123,7 +123,7 @@
 
     rtmp_player.attachMediaElement(videoElement);
 
-    rtmp_player.open('82.4.251.26', 25565).then(()=>{   // Host, Port of WebRTMP Proxy
+    rtmp_player.open('byronbonkers.com', 25565).then(()=>{   // Host, Port of WebRTMP Proxy
         rtmp_player.connect("live").then(()=>{                  // Application name
             rtmp_player.play("stream").then(()=>{      // Stream name
                 console.log("playing");
