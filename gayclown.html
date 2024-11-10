@@ -115,6 +115,7 @@
         <button id="playButton" onclick="startMusic()">🎶 Play Background Music 🎶</button>
     </div>
 <script src="webrtmp.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ovenplayer/dist/ovenplayer.js"></script>
 <div id="player_id"></div>
 <script>
 
@@ -134,7 +135,7 @@
     
     <link href="https://cdn.jsdelivr.net/npm/video.js@7.12.3/dist/video-js.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/video.js@7.12.3/dist/video.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ovenplayer/dist/ovenplayer.js"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
     <script>
         const client = new Paho.MQTT.Client("ws://<Raspberry_Pi_IP>:9001", "clientId-web");
