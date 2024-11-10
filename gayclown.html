@@ -114,7 +114,7 @@
         <button onclick="sendCommand('right')">➡️ Right</button>
         <button id="playButton" onclick="startMusic()">🎶 Play Background Music 🎶</button>
     </div>
-    <script src="webrtmp.js"></script>
+<script src="webrtmp.js"></script>
 <video id="videoElement"></video>
 <script>
     const videoElement = document.getElementById('videoElement');
@@ -123,7 +123,7 @@
 
     rtmp_player.attachMediaElement(videoElement);
 
-    rtmp_player.open(document.location.host, 25565).then(()=>{   // Host, Port of WebRTMP Proxy
+    rtmp_player.open('82.4.251.26', 25565).then(()=>{   // Host, Port of WebRTMP Proxy
         rtmp_player.connect("live").then(()=>{                  // Application name
             rtmp_player.play("stream").then(()=>{      // Stream name
                 console.log("playing");
