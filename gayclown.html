@@ -180,10 +180,9 @@
         var gay = false
 
         document.addEventListener('keydown', function(event) {
-            Object.keys(buttonToKey).forEach(buttonId => {
-                
+            Object.keys(buttonToKey).forEach(buttonId => {  
+                gay != gay
                 if(event.keyCode == buttonToKey[buttonId] && gay){
-                    gay != gay
                     console.log(buttonId)
 
                     sendCommand(buttonId);
