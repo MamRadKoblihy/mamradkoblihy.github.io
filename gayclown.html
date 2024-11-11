@@ -145,7 +145,6 @@
 <script src="webrtmp.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/ovenplayer/dist/ovenplayer.js"></script>
 <div id="player_id"></div>
-<button id="startButton">Start Stream</button>
 <script>
 
         // Initialize OvenPlayer
@@ -162,20 +161,7 @@
                 }
             ]
         });
-   // Request audio permission when the user interacts
-        document.getElementById('startButton').addEventListener('click', function () {
-            // Request permission to access the microphone
-            navigator.permissions.query({ name: 'microphone' }).then(function(permissionStatus) {
-                if (permissionStatus.state === 'granted') {
-                    // If the user granted permission, unmute the video and start playback
-                    player.setVolume(1); // Unmute the player
-                    player.play();       // Start the video
-                } else {
-                    // If the user denies the permission, show an alert
-                    alert("Please allow access to your microphone to enable audio.");
-                }
-            });
-        });
+ 
     </script>
     
     
