@@ -177,22 +177,23 @@
             }, 50); // 50ms delay for spam speed (adjust as needed)
         }
 
-        var gay = false
-
-        document.addEventListener('keydown', function(event) {
+   let lastExecutionTime = 0; // Keep track of the last execution time
+    const throttleDelay = 300; // Delay in milliseconds (adjust as needed)
+    
+    document.addEventListener('keydown', function(event) {
+        const currentTime = Date.now(); // Get current time
+    
+        // Check if the event should be throttled
+        if (currentTime - lastExecutionTime >= throttleDelay) {
             Object.keys(buttonToKey).forEach(buttonId => {  
-                if(event.keyCode == buttonToKey[buttonId]){
-                    if(!gay){
-                        console.log(buttonId)
-                        sendCommand(buttonId);
-                       
-                    }
-                    gay = !gay
-                        
+                if (event.keyCode == buttonToKey[buttonId]) {
+                    console.log(buttonId);
+                    sendCommand(buttonId);
+                    lastExecutionTime = currentTime; // Update the last execution time
                 }
-            })
-           
-        });
+            });
+        }
+    });
 
     </script>
     <script>
