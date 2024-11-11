@@ -132,7 +132,7 @@
         <button id="button_d" onclick="sendCommand('r')">⬇️ Down</button>
         <button id="button_l" onclick="sendCommand('f')">⬅️ Left</button>
         <button id="button_r" onclick="sendCommand('b')">➡️ Right</button>
-        <button id="button_r" onclick="sendCommand('camera')">📷 Change Camera</button>
+        <button id="button_r" onclick="changeView()">📷 Change Camera</button>
         <button id="playButton" onclick="startMusic()">🎶 Play Background Music 🎶</button>
     </div>
     <script>
@@ -201,7 +201,8 @@
 <script src="https://cdn.jsdelivr.net/npm/ovenplayer/dist/ovenplayer.js"></script>
 <div id="player_id"></div>
 <script>
-
+      var changingCamera = false;
+      
         // Initialize OvenPlayer
         const player = OvenPlayer.create('player_id', {
             autoStart: true,
@@ -216,6 +217,78 @@
                 }
             ]
         });
+        function changeView(){
+            sendCommand('camera');
+            changingCamera = true;
+        }
+        function tryToLoadStream(){
+            console.log("Trying to load stream...")        
+            var playlist = [
+            {
+                label: 'Test',
+                // Set the type to 'webrtc'
+                type: 'webrtc',
+                // Set the file to WebRTC Signaling URL with OvenMediaEngine 
+                file: 'wss://byronbonkers.com:3334/app/stream'
+            }
+        ]
+            player.load(playlist)
+            //setTimeout(tryToLoadStream, 2000);
+            
+        }
+        var haveinterval = 0;
+        player.on('stateChanged', function(stateobj) {
+            
+            const newstate = stateobj.newstate;
+            console.log("state changed: " + newstate)
+            if(!newstate)
+                return;
+            if (changingCamera == false)
+                return;
+            
+            if(newstate == "playing"){
+                changingCamera = false;
+                clearInterval(haveinterval)
+                haveinterval = 0
+            }
+            if(newstate == "error"){
+                console.log("Interval started")
+                if(haveinterval == 0){
+                    const interval = setInterval(function() {
+                        if(changingCamera){
+                            tryToLoadStream()
+                        }
+                    }, 2000);
+                    haveinterval = interval;
+                }
+                /*console.log("Bruh err")
+                setInterval(function() {
+                    if(changingCamera){
+                        tryToLoadStream()
+                    }
+                }, 2000);*/
+            }
+            /*console.log("Reloading stream!")
+                setTimeout(function () {
+                    
+                    var newstate = stateobj.newstate
+                    if(newstate == "idle" || newstate == "error" || newstate == "loading"){
+                        
+                        var playlist = [
+                        {
+                            label: 'Test',
+                            // Set the type to 'webrtc'
+                            type: 'webrtc',
+                            // Set the file to WebRTC Signaling URL with OvenMediaEngine 
+                            file: 'wss://byronbonkers.com:3334/app/stream'
+                        }
+                    ]
+                        player.load(playlist)
+                    }
+                }, 1000);
+            changingCamera = false;*/
+        });
+        
  
     </script>
     
@@ -251,6 +324,7 @@
      function sendCommand(direction) {
             client.publish(topic, direction);
     }
+    
     // Event handler for any incoming messages on subscribed topics
     client.on('message', (topic, message) => {
         console.log(`Received message: ${message.toString()} on topic: ${topic}`);
