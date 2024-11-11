@@ -181,11 +181,14 @@
 
         document.addEventListener('keydown', function(event) {
             Object.keys(buttonToKey).forEach(buttonId => {  
-                gay != gay
-                if(event.keyCode == buttonToKey[buttonId] && gay){
-                    console.log(buttonId)
-
-                    sendCommand(buttonId);
+                if(event.keyCode == buttonToKey[buttonId]){
+                    if(!gay){
+                        gay != gay
+                    }else{
+                        console.log(buttonId)
+    
+                        sendCommand(buttonId);
+                    }
                 }
             })
            
