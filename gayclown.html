@@ -109,10 +109,10 @@
     <audio id="backgroundMusic" src="background-music.mp3" loop></audio>
    
     <div class="buttons">
-        <button onclick="sendCommand('up')">⬆️ Up</button>
-        <button onclick="sendCommand('left')">⬅️ Left</button>
-        <button onclick="sendCommand('down')">⬇️ Down</button>
-        <button onclick="sendCommand('right')">➡️ Right</button>
+        <button onclick="sendCommand('x')">⬆️ Up</button>
+        <button onclick="sendCommand('l')">⬅️ Left</button>
+        <button onclick="sendCommand('z')">⬇️ Down</button>
+        <button onclick="sendCommand('r')">➡️ Right</button>
         <button id="playButton" onclick="startMusic()">🎶 Play Background Music 🎶</button>
     </div>
 <script src="webrtmp.js"></script>
@@ -141,7 +141,7 @@
 <script>
     // Connect to the broker using secure WebSocket (wss://)
     const brokerUrl = 'wss://byronbonkers.com:19132';  // Use your domain
-    const topic = 'test/topic';  // Topic to publish to
+    const topic = 'claw_machine/control';  // Topic to publish to
 
     // Create the MQTT client
     const client = mqtt.connect(brokerUrl);
@@ -163,7 +163,9 @@
             console.log('Message sent to test/topic');
         });
     });
-
+     function sendCommand(direction) {
+            client.publish(topic, direction);
+    }
     // Event handler for any incoming messages on subscribed topics
     client.on('message', (topic, message) => {
         console.log(`Received message: ${message.toString()} on topic: ${topic}`);
@@ -182,26 +184,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
     <script>
-        const clientId = "clientId-web-" + Math.random().toString(16).substr(2, 8);
-        const client = new Paho.MQTT.Client("wss://byronbonkers.com:19132", clientId);
-
-        client.onConnectionLost = (responseObject) => {
-            if (responseObject.errorCode !== 0) {
-                console.log("Connection lost:", responseObject.errorMessage);
-            }
-        };
-
-        client.connect({onSuccess: onConnect});
-
-        function onConnect() {
-            console.log("Connected to MQTT broker.");
-        }
-
-        function sendCommand(direction) {
-            const message = new Paho.MQTT.Message(direction);
-            message.destinationName = "claw_machine/control";
-            client.send(message);
-        }
+        
         document.addEventListener("DOMContentLoaded", () => {
         const audio = document.getElementById("backgroundMusic");
 
