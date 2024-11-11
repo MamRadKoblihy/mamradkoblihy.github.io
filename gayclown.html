@@ -120,15 +120,12 @@
     </style>
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
     <script>
-        // Check if the user agent contains "Firefox"
         if (navigator.userAgent.includes("Firefox")) {
-          // Create a popup element
           const popup = document.createElement("span");
-          popup.className = "popuptext show";  // Add classes
+          popup.className = "popuptext show";
           popup.id = "myPopup";
           popup.textContent = "fuck you";
     
-          // Append it to the body or a specific element
           document.body.appendChild(popup);
         }
       </script>
