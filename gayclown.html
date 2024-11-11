@@ -126,14 +126,66 @@
     <audio id="backgroundMusic" src="clown.mp3" loop></audio>
    
     <div class="buttons">
-        <button onclick="sendCommand('x')">⬆️ Back</button>
-        <button onclick="sendCommand('z')">⬇️ Foward</button>
-        <button onclick="sendCommand('l')">⬅️ Up</button>
-        <button onclick="sendCommand('r')">➡️ Down</button>
-        <button onclick="sendCommand('f')">➡️ Left</button>
-        <button onclick="sendCommand('b')">➡️ Right</button>
+        <button id="button_b" onclick="sendCommand('x')">🖕Back</button>
+        <button id="button_f" onclick="sendCommand('z')">👇Forward</button>
+        <button id="button_u" onclick="sendCommand('l')">⬆️ Up</button>
+        <button id="button_d" onclick="sendCommand('r')">⬇️ Down</button>
+        <button id="button_l" onclick="sendCommand('f')">⬅️ Left</button>
+        <button id="button_r" onclick="sendCommand('b')">➡️ Right</button>
         <button id="playButton" onclick="startMusic()">🎶 Play Background Music 🎶</button>
     </div>
+    <script>
+        // Map button clicks to keyboard keys
+        const buttonToKey = {
+            'z': 87,   // W
+            'f': 65,   // A
+            'x': 83,   // S
+            'b': 68,   // D
+            'l': 38,   // Up Arrow
+            'r': 40  // Down Arrow
+        };
+
+
+        // Hold state for buttons (if they're pressed or not)
+        let buttonState = {
+            'button_f': false,
+            'button_l': false,
+            'button_b': false,
+            'button_r': false,
+            'button_u': false,
+            'button_d': false
+        };
+
+        // Function to simulate pressing a key
+        function simulateKeyPress(key) {
+            sendCommand(key)
+        }
+
+      
+        // Start spamming the key when the button is pressed
+        function spamKey(buttonId) {
+            const key = buttonToKey[buttonId];
+            console.log(buttonId)
+            const spamInterval = setInterval(() => {
+                if (buttonState[buttonId]) {
+                    simulateKeyPress(key);  // Simulate key press
+                } else {
+                    clearInterval(spamInterval);  // Stop spamming when button is released
+                }
+            }, 50); // 50ms delay for spam speed (adjust as needed)
+        }
+        document.addEventListener('keydown', function(event) {
+            Object.keys(buttonToKey).forEach(buttonId => {
+                
+                if(event.keyCode == buttonToKey[buttonId]){
+                    console.log(buttonId)
+                    sendCommand(buttonId);
+                }
+            })
+           
+        });
+
+    </script>
     <script>
         if (navigator.userAgent.includes("Firefox")) {
           const popup = document.createElement("span");
