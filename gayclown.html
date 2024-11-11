@@ -151,9 +151,7 @@
         // Initialize OvenPlayer
         const player = OvenPlayer.create('player_id', {
             autoStart: true,
-            autoplay: true,  // Enable autoplay
-            muted: true,     // Mute video to ensure autoplay works on all browsers
-            playsinline: true, // Important for mobile autoplay
+            mute: true,     // Mute video to ensure autoplay works on all browsers
             sources: [
                 {
                     label: 'Test',
