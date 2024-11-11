@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultimate Claw Machine 🎉</title>
+
     <style>
         /* Overall Layout */
         body { 
@@ -175,11 +176,16 @@
                 }
             }, 50); // 50ms delay for spam speed (adjust as needed)
         }
+
+        var gay = false
+
         document.addEventListener('keydown', function(event) {
             Object.keys(buttonToKey).forEach(buttonId => {
                 
-                if(event.keyCode == buttonToKey[buttonId]){
+                if(event.keyCode == buttonToKey[buttonId] && gay){
+                    gay != gay
                     console.log(buttonId)
+
                     sendCommand(buttonId);
                 }
             })
