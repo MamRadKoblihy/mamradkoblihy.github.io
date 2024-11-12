@@ -184,16 +184,16 @@
         const currentTime = Date.now(); // Get current time
     
         // Check if the event should be throttled
-      // if (currentTime - lastExecutionTime >= throttleDelay) {
-      //      Object.keys(buttonToKey).forEach(buttonId => {  
-     //           if (event.keyCode == buttonToKey[buttonId]) {
-      //              console.log(buttonId);
-     //               sendCommand(buttonId);
-     //               lastExecutionTime = currentTime; // Update the last execution time
-    //            }
-    //        });
-//}
-  //  });
+        if (currentTime - lastExecutionTime >= throttleDelay) {
+            Object.keys(buttonToKey).forEach(buttonId => {  
+                if (event.keyCode == buttonToKey[buttonId]) {
+                    console.log(buttonId);
+                    sendCommand(buttonId);
+                    lastExecutionTime = currentTime; // Update the last execution time
+                }
+            });
+        }
+    });
 
     </script>
     <script>
