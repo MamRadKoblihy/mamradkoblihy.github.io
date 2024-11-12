@@ -118,6 +118,12 @@
     .popuptext.show {
       display: block;
     }
+    .main-page {
+        position: ;
+    }
+    .link-container {
+        text-align: left;
+    }
     </style>
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 </head>
@@ -125,7 +131,10 @@
     <h1>🎪 Customcheat's Favourite Claw Machine 🎉</h1>
     <div class="clown-bg"></div>
     <audio id="backgroundMusic" src="clown.mp3" loop></audio>
-   
+    <div class="link-container">
+        <a href="/claw/homepage.html" class="main-page">Go to main page</a>
+    </div>
+    
     <div class="buttons">
         <button id="button_b" onclick="sendCommand('x')">🖕Back</button>
         <button id="button_f" onclick="sendCommand('z')">👇Forward</button>
