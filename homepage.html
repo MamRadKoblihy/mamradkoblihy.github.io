@@ -65,6 +65,11 @@
                 authSection.innerHTML = `
                 <div id="user-button"></div>
                 `;
+                if(Clerk.user.publicMetadata.coins){
+                    authSection.innerHTML += "<h1>Coins: " + Clerk.user.publicMetadata.coins +  "</h1>"
+                }else{
+                    authSection.innerHTML += "<h1>Coins: 0</h1>"
+                }
                 Clerk.mountUserButton(document.getElementById('user-button'));
             } else {
                 // Display the login button
