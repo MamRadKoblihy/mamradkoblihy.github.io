@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <!-- Include Clerk SDK -->
     <style>
-        /* Style for profile and coin display */
+         /* Style for profile and coin display */
         .profile-section {
             position: absolute;
             top: 10px;
@@ -16,6 +16,7 @@
             display: flex;
             align-items: center;
             font-size: 0.9em;
+            flex-direction: row-reverse; /* Reverse the order */
         }
         
         .profile-section h1 {
@@ -23,8 +24,9 @@
             font-size: 1.1em;
             color: #333;
         }
+        
         .coin-display {
-            margin-right: 10px;
+            margin-left: 10px; /* Adjust margin to space between profile and coins */
             font-size: 1.2em;
             color: #333;
         }
