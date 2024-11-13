@@ -7,6 +7,21 @@
     <title>Claw Machine Arcade</title>
     <link rel="stylesheet" href="styles.css">
     <!-- Include Clerk SDK -->
+    <style>
+        /* Style for profile and coin display */
+        .profile-section {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        .coin-display {
+            margin-right: 10px;
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -16,10 +31,10 @@
                 <li><a href="/claw2.html">Claw Machine 2</a></li>
                 <li><a href="/claw3.html">Claw Machine 3</a></li>
                 <li><a href="/claw4.html">Claw Machine 4</a></li>
-                <!-- Placeholder for login or profile -->
-                <li id="auth-section"></li>
             </ul>
         </nav>
+        <!-- Profile section for coins and profile picture -->
+        <div class="profile-section" id="auth-section"></div>
     </header>
     <main>
         <section class="hero">
@@ -54,22 +69,19 @@
     <script>
         // Initialize Clerk
         window.addEventListener('load', async function () {
-      // Load Clerk SDK and wait for it to be ready
+            // Load Clerk SDK and wait for it to be ready
             await Clerk.load();
 
             const authSection = document.getElementById('auth-section');
 
             // Check if the user is logged in
             if (Clerk.user) {
-                // Display the user profile with their name
+                // Display the user profile with their name and coin count
+                const coins = Clerk.user.publicMetadata.coins || 0;
                 authSection.innerHTML = `
-                <div id="user-button"></div>
+                    <div class="coin-display">Coins: ${coins}</div>
+                    <div id="user-button"></div>
                 `;
-                if(Clerk.user.publicMetadata.coins){
-                    authSection.innerHTML += "<h1>Coins: " + Clerk.user.publicMetadata.coins +  "</h1>"
-                }else{
-                    authSection.innerHTML += "<h1>Coins: 0</h1>"
-                }
                 Clerk.mountUserButton(document.getElementById('user-button'));
             } else {
                 // Display the login button
