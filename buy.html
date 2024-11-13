@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PayPal JS SDK Standard Integration</title>
     <link
       rel="stylesheet"
@@ -10,56 +10,95 @@
       href="https://www.paypalobjects.com/webstatic/en_US/developer/docs/css/cardfields.css"
     />
     <script
-    async
-    crossorigin="anonymous"
-    data-clerk-publishable-key="pk_test_bGFyZ2UtcHVtYS00MC5jbGVyay5hY2NvdW50cy5kZXYk"
-    src="https://large-puma-40.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
-    type="text/javascript"
+      async
+      crossorigin="anonymous"
+      data-clerk-publishable-key="pk_test_bGFyZ2UtcHVtYS00MC5jbGVyay5hY2NvdW50cy5kZXYk"
+      src="https://large-puma-40.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+      type="text/javascript"
     ></script>
-    
-  </head>
-  <body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #auth-section {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+        }
+        
+        #auth-section h1 {
+            margin: 0 10px;
+            font-size: 1.1em;
+            color: #333;
+        }
+        
+        #paypal-button-container {
+            margin: 50px auto;
+            width: 300px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        #result-message {
+            text-align: center;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+
+        .login-link {
+            color: #d9534f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+        .paypal-button-container {
+            max-width: 400px;
+            margin: 100px auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="auth-section"></div>
     <div id="paypal-button-container" class="paypal-button-container"></div>
     <p id="result-message"></p>
     
     <script src="https://www.paypal.com/sdk/js?client-id=AQMfnWgNrlMzgYezDTdm7eSzGRQfek4dlfV0QO8CxgPU33phNnnM81Ij7zabK_zxF0ZvWSMEDYvIWYC4&currency=GBP"></script>
     <script src="app.js"></script>
-    <li id="auth-section"></li>
+    
     <script>
-      // Initialize Clerk
-      window.addEventListener('load', async function () {
-    // Load Clerk SDK and wait for it to be ready
-          await Clerk.load();
+        // Initialize Clerk
+        window.addEventListener('load', async function () {
+            // Load Clerk SDK and wait for it to be ready
+            await Clerk.load();
 
-          const authSection = document.getElementById('auth-section');
+            const authSection = document.getElementById('auth-section');
 
-          // Check if the user is logged in
-          if (Clerk.user) {
-              // Display the user profile with their name
-              
-              authSection.innerHTML = `
-              <div id="user-button"></div>
-              `;
-              if(Clerk.user.publicMetadata.coins){
-                  authSection.innerHTML += "<h1>Coins: " + Clerk.user.publicMetadata.coins +  "</h1>"
-              }else{
-                  authSection.innerHTML += "<h1>Coins: 0</h1>"
-              }
-              Clerk.mountUserButton(document.getElementById('user-button'));
-          } else {
-              // Display the login button
-              /*fetch("http://localhost:8080/api/userId", {
-              method: "POST",
-              body: JSON.stringify({
-                userId: 0
-              }),
-              headers: {
-                "Content-type": "application/json; charset=UTF-8"
-              }
-            });*/
-              authSection.innerHTML = `<a href="/claw/login.html" class="login-link">You are not logged in! The payment will not work! Click here to login</a>`;
-          }
-      });
-  </script>
-  </body>
+            // Check if the user is logged in
+            if (Clerk.user) {
+                // Display the user profile with their name and coins count
+                authSection.innerHTML = `
+                    <div id="user-button"></div>
+                    <h1>Coins: ${Clerk.user.publicMetadata.coins || 0}</h1>
+                `;
+                Clerk.mountUserButton(document.getElementById('user-button'));
+            } else {
+                // Display the login button
+                authSection.innerHTML = `<a href="/claw/login.html" class="login-link">You are not logged in! The payment will not work! Click here to login</a>`;
+            }
+        });
+    </script>
+</body>
 </html>
