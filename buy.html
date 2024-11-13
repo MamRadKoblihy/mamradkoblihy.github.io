@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PayPal JS SDK Standard Integration</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://www.paypalobjects.com/webstatic/en_US/developer/docs/css/cardfields.css"
+    />
+    <script
+    async
+    crossorigin="anonymous"
+    data-clerk-publishable-key="pk_test_bGFyZ2UtcHVtYS00MC5jbGVyay5hY2NvdW50cy5kZXYk"
+    src="https://large-puma-40.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+    type="text/javascript"
+    ></script>
+    
+  </head>
+  <body>
+    <div id="paypal-button-container" class="paypal-button-container"></div>
+    <p id="result-message"></p>
+    
+    <script src="https://www.paypal.com/sdk/js?client-id=AQMfnWgNrlMzgYezDTdm7eSzGRQfek4dlfV0QO8CxgPU33phNnnM81Ij7zabK_zxF0ZvWSMEDYvIWYC4&currency=GBP"></script>
+    <script src="app.js"></script>
+    <li id="auth-section"></li>
+    <script>
+      // Initialize Clerk
+      window.addEventListener('load', async function () {
+    // Load Clerk SDK and wait for it to be ready
+          await Clerk.load();
+
+          const authSection = document.getElementById('auth-section');
+
+          // Check if the user is logged in
+          if (Clerk.user) {
+              // Display the user profile with their name
+              
+              authSection.innerHTML = `
+              <div id="user-button"></div>
+              `;
+              if(Clerk.user.publicMetadata.coins){
+                  authSection.innerHTML += "<h1>Coins: " + Clerk.user.publicMetadata.coins +  "</h1>"
+              }else{
+                  authSection.innerHTML += "<h1>Coins: 0</h1>"
+              }
+              Clerk.mountUserButton(document.getElementById('user-button'));
+          } else {
+              // Display the login button
+              /*fetch("http://localhost:8080/api/userId", {
+              method: "POST",
+              body: JSON.stringify({
+                userId: 0
+              }),
+              headers: {
+                "Content-type": "application/json; charset=UTF-8"
+              }
+            });*/
+              authSection.innerHTML = `<a href="/claw/login.html" class="login-link">You are not logged in! The payment will not work! Click here to login</a>`;
+          }
+      });
+  </script>
+  </body>
+</html>
