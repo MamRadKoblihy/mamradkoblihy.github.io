@@ -231,6 +231,7 @@
         function changeView(){
             sendCommand('camera');
             changingCamera = true;
+            tryToLoadStream()
         }
         function tryToLoadStream(){
             console.log("Trying to load stream...")        
