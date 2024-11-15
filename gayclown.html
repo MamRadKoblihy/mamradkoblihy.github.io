@@ -104,6 +104,46 @@
             opacity: 0.5;
         }
     </style>
+    <style>
+        /* Styling for the win popup */
+        #winPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #333;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            z-index: 1001;
+        }
+    
+        #winPopup h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #4CAF50;
+        }
+    
+        #winPopup button {
+            padding: 10px 20px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            background-color: #4CAF50;
+            color: white;
+            transition: background 0.3s;
+        }
+    
+        #winPopup button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    
     <script
     async
     crossorigin="anonymous"
@@ -207,7 +247,18 @@
           document.body.appendChild(popup);
         }
       </script>
-    
+
+<div class="popup" id="winPopup" style="display: none;">
+    <h2>Congratulations! 🎉</h2>
+    <p>You won! Enjoy your prize!</p>
+    <button id="winCloseBtn">Close</button>
+</div>
+
+<!-- Include canvas-confetti for the confetti animation -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+
+
 <script src="webrtmp.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/ovenplayer/dist/ovenplayer.js"></script>
 <div id="player_id"></div>
@@ -255,6 +306,9 @@
             console.log("state changed: " + newstate)
             if(!newstate)
                 return;
+            if(newstate == "error"){
+                changingCamera = true;
+            }
             if (changingCamera == false)
                 return;
             
@@ -316,6 +370,21 @@
             const notEnoughCoinsText = document.getElementById('notEnoughCoins');
             const buttonContainer = document.getElementById('buttonContainer');
 
+            const winPopup = document.getElementById('winPopup');
+            const winCloseBtn = document.getElementById('winCloseBtn');
+            winCloseBtn.addEventListener('click', () => {
+                winPopup.style.display = 'none';
+            });
+
+            function showWinPopup() {
+                winPopup.style.display = 'block';
+                // Launch confetti
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
             // Show the popup on page load
             ticketPopup.style.display = 'block';
 
@@ -323,12 +392,15 @@
                 try {
                     var response = await callApi();
                     console.log(response)
-                    if (response.err === "You dont have enough coins.") {
+                    if (response.err) {
+                        console.log(response.err)
+                        notEnoughCoinsText.textContent = response.err;
                         notEnoughCoinsText.style.display = 'block';
                     } else if (response.username && response.password) {
                         // Initialize MQTT with the provided credentials
                         const brokerUrl = 'wss://byronbonkers.com:19132';
-                        const topic = 'claw_machine/control';
+                        const controlTopic = 'claw_machine/control';
+                        const statusTopic = 'claw_machine/status';
                         const client = mqtt.connect(brokerUrl, {
                             username: response.username,
                             password: response.password
@@ -339,15 +411,32 @@
                             buttonContainer.classList.remove('blocked'); // Enable buttons
                             ticketPopup.style.display = 'none'; // Close the popup
                             startCountdown(15); // Start the 15-second countdown
+                            client.subscribe(statusTopic, (err) => {
+                            if (err) {
+                                console.error('Failed to subscribe to status topic:', err);
+                            } else {
+                                console.log('Subscribed to status topic:', statusTopic);
+                            }
                         });
+                        });
+                        client.on('message', (topic, message) => {
+                        if (topic === statusTopic) {
+                            const status = message.toString().trim();
+                            console.log('Received status update:', status);
 
+                            // Check if the status indicates a win
+                            if (status === 'win') {
+                                showWinPopup(); // Show the win popup with confetti
+                            }
+                        }
+                        });
                         client.on('error', (err) => {
                             console.error('MQTT connection error:', err);
                         });
 
                         // Send commands via MQTT
                         window.sendCommand = (direction) => {
-                            client.publish(topic, direction);
+                            client.publish(controlTopic, direction);
                         };
                     }
                 } catch (error) {
